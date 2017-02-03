@@ -23,6 +23,7 @@ plugins:
  custom:
    client:
      bucketName: whatsbertdoing-client
+     distPath: overrides-client-path (default being client/dist)
 ```
 
 * **Warning:** The plugin will overwrite any data you have in the bucket name you set above if it already exists.
