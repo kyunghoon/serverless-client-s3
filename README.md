@@ -44,7 +44,7 @@ echo "error page" >> client/dist/error.html
 **Fourth**, run the plugin, and visit your new website!
 
 ```
-serverless client deploy [--stage $STAGE] [--region $REGION]
+serverless client deploy [--stage $STAGE] [--region $REGION] -[--zipPattern $ZIPPATTERN]
 ```
 
 **Fifth**, Have fun!

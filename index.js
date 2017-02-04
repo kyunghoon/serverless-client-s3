@@ -14,6 +14,7 @@ class Client {
     this.region = options.region || _.get(serverless, 'service.provider.region');
     this.provider = 'aws';
     this.aws = this.serverless.getProvider(this.provider);
+    this.options = options;
 
     this.commands = {
       client: {
@@ -25,9 +26,13 @@ class Client {
         commands: {
           deploy: {
             usage: 'Deploy serverless client code',
-            lifecycleEvents:[
-              'deploy'
-            ]
+            lifecycleEvents:[ 'deploy' ],
+            options: {
+              zipMatch: {
+                shortcut: 'z',
+                usage: 'Files matching the supplied pattern will have Content-Encoding: gzip header appended'
+              }
+            }
           }
         }
       }
@@ -227,6 +232,13 @@ class Client {
         Body: fileBuffer,
         ContentType: mime.lookup(filePath)
       };
+
+      if (_this.options.z) {
+        const re = new RegExp(_this.options.z);
+        if (re.test(filePath)) {
+          params.ContentEncoding = 'gzip';
+        }
+      }
 
       // TODO: remove browser caching
       return _this.aws.request('S3', 'putObject', params, _this.stage, _this.region);
