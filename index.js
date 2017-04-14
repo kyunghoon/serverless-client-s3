@@ -83,6 +83,12 @@ class Client {
 
     this.clientPath = fullClientPath;
 
+    if (this.serverless.service.custom &&
+      this.serverless.service.custom.client &&
+      this.serverless.service.custom.client.CacheControl) {
+      this.CacheControl = this.serverless.service.custom.client.CacheControl;
+    }
+
     return BbPromise.resolve();
   }
 
@@ -239,6 +245,10 @@ class Client {
           params.ContentEncoding = 'gzip';
         }
       }
+
+      if (_this.CacheControl && (!(_this.CacheControl.regex) || (filePath.match(new RegExp(_this.CacheControl.regex, "i"))))) {
+        params.CacheControl = _this.CacheControl.value;
+      };
 
       // TODO: remove browser caching
       return _this.aws.request('S3', 'putObject', params, _this.stage, _this.region);

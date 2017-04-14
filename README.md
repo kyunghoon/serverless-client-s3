@@ -24,6 +24,9 @@ plugins:
    client:
      bucketName: whatsbertdoing-client
      distPath: overrides-client-path (default being client/dist)
+     CacheControl:
+       value: max-age=0
+       regex: index.html$
 ```
 
 * **Warning:** The plugin will overwrite any data you have in the bucket name you set above if it already exists.
